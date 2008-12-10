@@ -1,17 +1,28 @@
-use 5.008000;
-use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
-WriteMakefile(
-    NAME              => 'Foo',
-    VERSION_FROM      => 'lib/Foo.pm', # finds $VERSION
-    PREREQ_PM         => {}, # e.g., Module::Name => 1.1
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/Foo.pm', # retrieve abstract from module
-       AUTHOR         => 'A. U. Thor <a.u.thor@a.galaxy.far.far.away>') : ()),
-    LIBS              => [''], # e.g., '-lm'
-    DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
-    INC               => '-I.', # e.g., '-I. -I/usr/include/other'
-	# Un-comment this if you add C files to link with later:
-    # OBJECT            => '$(O_FILES)', # link all the C files too
+use inc::Module::Install;
+name 'Foo';
+all_from 'lib/Foo.pm';
+
+tests 't/*.t t/*/*.t';
+author_tests 'xt';
+
+build_requires 'Test::More';
+build_requires 'YAML';
+
+can_cc or die "This module requires a C compiler";
+
+makemaker_args(
+	OBJECT => '$(O_FILES)',
+	clean => {
+		FILES => q{
+			*.stackdump
+			*.gcov *.gcda *.gcno
+			*.out
+			nytprof
+			cover_db
+		},
+	},
 );
+
+use_test_base;
+auto_include;
+WriteAll();
