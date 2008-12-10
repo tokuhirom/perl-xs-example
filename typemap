@@ -1,0 +1,10 @@
+TYPEMAP
+
+FooContext * T_PTROBJ_FOO_CONTEXT
+
+INPUT
+T_PTROBJ_FOO_CONTEXT
+        if (SvOK($arg) && SvROK($arg))
+            $var = (FooContext *) mg_find(SvRV($arg), PERL_MAGIC_ext)->mg_obj;
+        else
+            $var = NULL;

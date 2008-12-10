@@ -1,0 +1,8 @@
+Changes
+Foo.xs
+Makefile.PL
+MANIFEST
+ppport.h
+README
+t/Foo.t
+lib/Foo.pm
