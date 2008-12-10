@@ -24,7 +24,7 @@ Foo::new()
 void
 DESTROY(FooContext* ctx)
     CODE:
-        free(ctx);
+        Safefree(ctx);
 
 void
 add(FooContext* ctx, int val)
